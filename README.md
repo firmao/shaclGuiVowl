@@ -1,4 +1,4 @@
-ShaclGuiVOLW is based on WebVOWL [![Build Status](https://travis-ci.org/VisualDataWeb/WebVOWL.svg?branch=master)](https://travis-ci.org/VisualDataWeb/WebVOWL)
+ShaclGuiVOLW is based on WebVOWL [![Build Status](https://travis-ci.org/VisualDataWeb/WebVOWL.svg?branch=master)](https://travis-ci.org/VisualDataWeb/WebVOWL) + [SHACL](https://www.w3.org/TR/shacl/)
 
 WebVOWL + SHACL
 =======
