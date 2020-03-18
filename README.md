@@ -1,14 +1,12 @@
-WebVOWL [![Build Status](https://travis-ci.org/VisualDataWeb/WebVOWL.svg?branch=master)](https://travis-ci.org/VisualDataWeb/WebVOWL)
+ShaclGuiVOLW is based on WebVOWL [![Build Status](https://travis-ci.org/VisualDataWeb/WebVOWL.svg?branch=master)](https://travis-ci.org/VisualDataWeb/WebVOWL)
+
+WebVOWL + SHACL
 =======
-
-This repository was ported from an internal SVN repository to Github after the release of WebVOWL 0.4.0. Due to cleanups with `git filter-branch`, the commit history might show some strange effects.
-
 
 Requirements
 ------------
 
 Node.js for installing the development tools and dependencies.
-
 
 Development setup
 -----------------
