@@ -3484,6 +3484,7 @@ module.exports = function ( graphContainerSelector ){
     // get position where we want to add the node;
     var grPos = getClickedScreenCoords(d3.event.clientX, d3.event.clientY, graph.translation(), graph.scaleFactor());
     createNewNodeAtPosition(grPos);
+    alert("Creation of a node, could be a SHACL here: " + grPos);
   };
   
   function doubletap(){
