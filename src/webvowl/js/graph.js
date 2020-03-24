@@ -2539,7 +2539,7 @@ module.exports = function ( graphContainerSelector ){
   /** --------------------------------------------------------- **/
   
   graph.changeNodeType = function ( element ){
-    
+    console.log("andre.element: " + element);
     var typeString = d3.select("#typeEditor").node().value;
     
     if ( graph.classesSanityCheck(element, typeString) === false ) {
@@ -2836,8 +2836,8 @@ module.exports = function ( graphContainerSelector ){
     var aNode, prototype;
     var forceUpdate = true;
     // create a node of that id;
-    
     var typeToCreate = d3.select("#defaultClass").node().title;
+    console.log("andre.type:" + typeToCreate);
     prototype = NodePrototypeMap.get(typeToCreate.toLowerCase());
     aNode = new prototype(graph);
     var autoEditElement = false;
@@ -3484,7 +3484,8 @@ module.exports = function ( graphContainerSelector ){
     // get position where we want to add the node;
     var grPos = getClickedScreenCoords(d3.event.clientX, d3.event.clientY, graph.translation(), graph.scaleFactor());
     createNewNodeAtPosition(grPos);
-    alert("Creation of a node, could be a SHACL here: " + grPos);
+    console.log("andre.d3.event:");
+    console.log(d3.event);
   };
   
   function doubletap(){

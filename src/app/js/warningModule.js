@@ -28,7 +28,6 @@ module.exports = function ( graph ){
   
   function findCSS_Index(){
     createCSSSelector("@keyframes msg_CollapseAnimation", " 0% { top: 0; } 100% { top: -400px;}");
-    console.log(document.styleSheets );
   }
   
   findCSS_Index();

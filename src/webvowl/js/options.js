@@ -74,7 +74,8 @@ module.exports = function (){
       owl: 'http://www.w3.org/2002/07/owl#',
       xsd: 'http://www.w3.org/2001/XMLSchema#',
       dc: 'http://purl.org/dc/elements/1.1/#',
-      xml: 'http://www.w3.org/XML/1998/namespace'
+      xml: 'http://www.w3.org/XML/1998/namespace',
+      sh:	'http://www.w3.org/ns/shacl#'
     };
   
   options.clearMetaObject = function (){

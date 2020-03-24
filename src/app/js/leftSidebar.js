@@ -14,6 +14,7 @@ module.exports = function ( graph ){
   var sideBarContent = d3.select("#leftSideBarContent");
   var sideBarContainer = d3.select("#containerForLeftSideBar");
   var defaultClassSelectionContainers = [];
+  var shaclSelectionContainers = [];
   var defaultDatatypeSelectionContainers = [];
   var defaultPropertySelectionContainers = [];
   
@@ -53,6 +54,7 @@ module.exports = function ( graph ){
   function updateDefaultNameInAccordion( element, identifier ){
     var elementDescription = "";
     if ( identifier === "defaultClass" ) elementDescription = "Class: ";
+    if ( identifier === "shacl" ) elementDescription = "Shape: ";
     if ( identifier === "defaultDatatype" ) elementDescription = "Datatype: ";
     if ( identifier === "defaultProperty" ) elementDescription = "Property: ";
     
@@ -86,6 +88,7 @@ module.exports = function ( graph ){
     // create the supported elements
     
     var defaultClass = "owl:Class";
+    var defaultClass = "sh:Shape";
     var defaultDatatype = "rdfs:Literal";
     var defaultProperty = "owl:objectProperty";
     
@@ -107,6 +110,7 @@ module.exports = function ( graph ){
       }
       aClassSelectionContainer.on("click", classSelectorFunction);
       defaultClassSelectionContainers.push(aClassSelectionContainer);
+      shaclSelectionContainers.push(aClassSelectionContainer);
     }
     
     for ( i = 0; i < supportedDatatypes.length; i++ ) {
