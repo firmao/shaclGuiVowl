@@ -1,0 +1,207 @@
+  
+<html lang="en">
+<title>Cytoscape ShaclGui</title>
+<style>
+#cy {
+  width: 800px;
+  height: 600px;
+  display: block;
+  background-color: #fff;
+}
+</style>
+<script>
+  window.console = window.console || function(t) {};
+</script>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+</head>
+<body translate="no">
+<div id="cy"></div>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.9.4/cytoscape.min.js'></script>
+<script id="rendered-js">
+let cy = cytoscape({
+                container: document.getElementById('cy'),
+                elements: data,
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(label)',
+                            'width': '60px',
+                            'height': '60px',
+                            'color': 'blue',
+                            'background-fit': 'contain',
+                            'background-clip': 'none'
+                        }
+                    }, {
+                        selector: 'edge',
+                        style: {
+                        	'label': 'data(label)',
+                           'text-background-color': 'yellow',
+                            'text-background-opacity': 0.4,
+                            'width': '6px',
+                            'target-arrow-shape': 'triangle',
+                            'control-point-step-size': '140px'
+                        }
+                    }
+                ],
+                layout: {
+                    name: 'circle'
+                }
+            });
+cy.add([
+{ group: 'nodes', data: { id: 'acadonto', label: 'acadonto' } },
+
+{ group: 'nodes', data: { id: 'acm.rkbexplorer', label: 'acm.rkbexplorer' } },
+
+{ group: 'nodes', data: { id: 'agrinepaldata', label: 'agrinepaldata' } },
+
+{ group: 'nodes', data: { id: 'aims', label: 'aims' } },
+
+{ group: 'nodes', data: { id: 'alaska', label: 'alaska' } },
+
+{ group: 'nodes', data: { id: 'apertium', label: 'apertium' } },
+
+{ group: 'nodes', data: { id: 'arrayexpress', label: 'arrayexpress' } },
+
+{ group: 'nodes', data: { id: 'athelia', label: 'athelia' } },
+
+{ group: 'nodes', data: { id: 'bfs.270a', label: 'bfs.270a' } },
+
+{ group: 'nodes', data: { id: 'biblioteca-nacional', label: 'biblioteca-nacional' } },
+
+{ group: 'nodes', data: { id: 'brown', label: 'brown' } },
+
+{ group: 'nodes', data: { id: 'dblp', label: 'dblp' } },
+
+{ group: 'nodes', data: { id: 'dbpedia', label: 'dbpedia' } },
+
+{ group: 'nodes', data: { id: 'geonames', label: 'geonames' } },
+
+{ group: 'nodes', data: { id: 'linkedgeodata', label: 'linkedgeodata' } },
+
+{ group: 'nodes', data: { id: 'swdf', label: 'swdf' } },
+
+{ group: 'nodes', data: { id: 'vivosearch', label: 'vivosearch' } },
+
+{ group: 'nodes', data: { id: 'wiktionary', label: 'wiktionary' } },
+
+{ group: 'nodes', data: { id: 'wordnet', label: 'wordnet' } },
+
+{ group: 'nodes', data: { id: 'yago', label: 'yago' } },
+
+{ group: 'edges', data: { id: 'aims-athelia', source: 'aims', target: 'athelia', label: 0.36 } },
+{ group: 'edges', data: { id: 'aims-bfs.270a', source: 'aims', target: 'bfs.270a', label: 0.27 } },
+{ group: 'edges', data: { id: 'bfs.270a-athelia', source: 'bfs.270a', target: 'athelia', label: 0.29 } },
+{ group: 'edges', data: { id: 'swdf-apertium', source: 'swdf', target: 'apertium', label: 0.02 } },
+{ group: 'edges', data: { id: 'aims-apertium', source: 'aims', target: 'apertium', label: 0.07 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-athelia', source: 'acm.rkbexplorer', target: 'athelia', label: 0.29 } },
+{ group: 'edges', data: { id: 'aims-brown', source: 'aims', target: 'brown', label: 0.12 } },
+{ group: 'edges', data: { id: 'swdf-biblioteca-nacional', source: 'swdf', target: 'biblioteca-nacional', label: 0.03 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-bfs.270a', source: 'acm.rkbexplorer', target: 'bfs.270a', label: 0.30 } },
+{ group: 'edges', data: { id: 'arrayexpress-athelia', source: 'arrayexpress', target: 'athelia', label: 0.06 } },
+{ group: 'edges', data: { id: 'arrayexpress-apertium', source: 'arrayexpress', target: 'apertium', label: 0.02 } },
+{ group: 'edges', data: { id: 'bfs.270a-brown', source: 'bfs.270a', target: 'brown', label: 0.15 } },
+{ group: 'edges', data: { id: 'arrayexpress-aims', source: 'arrayexpress', target: 'aims', label: 0.08 } },
+{ group: 'edges', data: { id: 'aims-biblioteca-nacional', source: 'aims', target: 'biblioteca-nacional', label: 0.08 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-brown', source: 'acm.rkbexplorer', target: 'brown', label: 0.20 } },
+{ group: 'edges', data: { id: 'brown-athelia', source: 'brown', target: 'athelia', label: 0.20 } },
+{ group: 'edges', data: { id: 'swdf-athelia', source: 'swdf', target: 'athelia', label: 0.04 } },
+{ group: 'edges', data: { id: 'acadonto-agrinepaldata', source: 'acadonto', target: 'agrinepaldata', label: 0.11 } },
+{ group: 'edges', data: { id: 'agrinepaldata-apertium', source: 'agrinepaldata', target: 'apertium', label: 0.16 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-apertium', source: 'acm.rkbexplorer', target: 'apertium', label: 0.11 } },
+{ group: 'edges', data: { id: 'wiktionary-apertium', source: 'wiktionary', target: 'apertium', label: 0.10 } },
+{ group: 'edges', data: { id: 'dblp-apertium', source: 'dblp', target: 'apertium', label: 0.08 } },
+{ group: 'edges', data: { id: 'swdf-aims', source: 'swdf', target: 'aims', label: 0.06 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-aims', source: 'acm.rkbexplorer', target: 'aims', label: 0.22 } },
+{ group: 'edges', data: { id: 'swdf-brown', source: 'swdf', target: 'brown', label: 0.03 } },
+{ group: 'edges', data: { id: 'agrinepaldata-athelia', source: 'agrinepaldata', target: 'athelia', label: 0.20 } },
+{ group: 'edges', data: { id: 'swdf-geonames', source: 'swdf', target: 'geonames', label: 0.02 } },
+{ group: 'edges', data: { id: 'wordnet-apertium', source: 'wordnet', target: 'apertium', label: 0.04 } },
+{ group: 'edges', data: { id: 'dblp-brown', source: 'dblp', target: 'brown', label: 0.09 } },
+{ group: 'edges', data: { id: 'brown-biblioteca-nacional', source: 'brown', target: 'biblioteca-nacional', label: 0.08 } },
+{ group: 'edges', data: { id: 'bfs.270a-biblioteca-nacional', source: 'bfs.270a', target: 'biblioteca-nacional', label: 0.06 } },
+{ group: 'edges', data: { id: 'swdf-bfs.270a', source: 'swdf', target: 'bfs.270a', label: 0.02 } },
+{ group: 'edges', data: { id: 'aims-geonames', source: 'aims', target: 'geonames', label: 0.04 } },
+{ group: 'edges', data: { id: 'wordnet-agrinepaldata', source: 'wordnet', target: 'agrinepaldata', label: 0.02 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-biblioteca-nacional', source: 'acm.rkbexplorer', target: 'biblioteca-nacional', label: 0.07 } },
+{ group: 'edges', data: { id: 'dblp-biblioteca-nacional', source: 'dblp', target: 'biblioteca-nacional', label: 0.05 } },
+{ group: 'edges', data: { id: 'dblp-wiktionary', source: 'dblp', target: 'wiktionary', label: 0.06 } },
+{ group: 'edges', data: { id: 'agrinepaldata-aims', source: 'agrinepaldata', target: 'aims', label: 0.11 } },
+{ group: 'edges', data: { id: 'dblp-aims', source: 'dblp', target: 'aims', label: 0.08 } },
+{ group: 'edges', data: { id: 'arrayexpress-brown', source: 'arrayexpress', target: 'brown', label: 0.02 } },
+{ group: 'edges', data: { id: 'agrinepaldata-acm.rkbexplorer', source: 'agrinepaldata', target: 'acm.rkbexplorer', label: 0.08 } },
+{ group: 'edges', data: { id: 'dblp-athelia', source: 'dblp', target: 'athelia', label: 0.06 } },
+{ group: 'edges', data: { id: 'dblp-geonames', source: 'dblp', target: 'geonames', label: 0.05 } },
+{ group: 'edges', data: { id: 'alaska-athelia', source: 'alaska', target: 'athelia', label: 0.02 } },
+{ group: 'edges', data: { id: 'wordnet-wiktionary', source: 'wordnet', target: 'wiktionary', label: 0.03 } },
+{ group: 'edges', data: { id: 'biblioteca-nacional-athelia', source: 'biblioteca-nacional', target: 'athelia', label: 0.06 } },
+{ group: 'edges', data: { id: 'acadonto-athelia', source: 'acadonto', target: 'athelia', label: 0.06 } },
+{ group: 'edges', data: { id: 'agrinepaldata-brown', source: 'agrinepaldata', target: 'brown', label: 0.07 } },
+{ group: 'edges', data: { id: 'apertium-brown', source: 'apertium', target: 'brown', label: 0.07 } },
+{ group: 'edges', data: { id: 'agrinepaldata-biblioteca-nacional', source: 'agrinepaldata', target: 'biblioteca-nacional', label: 0.06 } },
+{ group: 'edges', data: { id: 'apertium-biblioteca-nacional', source: 'apertium', target: 'biblioteca-nacional', label: 0.06 } },
+{ group: 'edges', data: { id: 'wiktionary-biblioteca-nacional', source: 'wiktionary', target: 'biblioteca-nacional', label: 0.04 } },
+{ group: 'edges', data: { id: 'wordnet-biblioteca-nacional', source: 'wordnet', target: 'biblioteca-nacional', label: 0.02 } },
+{ group: 'edges', data: { id: 'alaska-aims', source: 'alaska', target: 'aims', label: 0.02 } },
+{ group: 'edges', data: { id: 'apertium-bfs.270a', source: 'apertium', target: 'bfs.270a', label: 0.06 } },
+{ group: 'edges', data: { id: 'wordnet-acm.rkbexplorer', source: 'wordnet', target: 'acm.rkbexplorer', label: 0.02 } },
+{ group: 'edges', data: { id: 'apertium-geonames', source: 'apertium', target: 'geonames', label: 0.05 } },
+{ group: 'edges', data: { id: 'wiktionary-geonames', source: 'wiktionary', target: 'geonames', label: 0.04 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-dblp', source: 'acm.rkbexplorer', target: 'dblp', label: 0.05 } },
+{ group: 'edges', data: { id: 'wordnet-dblp', source: 'wordnet', target: 'dblp', label: 0.03 } },
+{ group: 'edges', data: { id: 'dblp-swdf', source: 'dblp', target: 'swdf', label: 0.07 } },
+{ group: 'edges', data: { id: 'arrayexpress-vivosearch', source: 'arrayexpress', target: 'vivosearch', label: 0.04 } },
+{ group: 'edges', data: { id: 'acadonto-aims', source: 'acadonto', target: 'aims', label: 0.05 } },
+{ group: 'edges', data: { id: 'apertium-athelia', source: 'apertium', target: 'athelia', label: 0.05 } },
+{ group: 'edges', data: { id: 'acadonto-apertium', source: 'acadonto', target: 'apertium', label: 0.03 } },
+{ group: 'edges', data: { id: 'aims-vivosearch', source: 'aims', target: 'vivosearch', label: 0.06 } },
+{ group: 'edges', data: { id: 'agrinepaldata-wiktionary', source: 'agrinepaldata', target: 'wiktionary', label: 0.05 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-wiktionary', source: 'acm.rkbexplorer', target: 'wiktionary', label: 0.04 } },
+{ group: 'edges', data: { id: 'wiktionary-brown', source: 'wiktionary', target: 'brown', label: 0.03 } },
+{ group: 'edges', data: { id: 'wordnet-brown', source: 'wordnet', target: 'brown', label: 0.02 } },
+{ group: 'edges', data: { id: 'agrinepaldata-bfs.270a', source: 'agrinepaldata', target: 'bfs.270a', label: 0.05 } },
+{ group: 'edges', data: { id: 'dblp-bfs.270a', source: 'dblp', target: 'bfs.270a', label: 0.03 } },
+{ group: 'edges', data: { id: 'wordnet-aims', source: 'wordnet', target: 'aims', label: 0.03 } },
+{ group: 'edges', data: { id: 'agrinepaldata-arrayexpress', source: 'agrinepaldata', target: 'arrayexpress', label: 0.05 } },
+{ group: 'edges', data: { id: 'athelia-vivosearch', source: 'athelia', target: 'vivosearch', label: 0.05 } },
+{ group: 'edges', data: { id: 'agrinepaldata-dblp', source: 'agrinepaldata', target: 'dblp', label: 0.04 } },
+{ group: 'edges', data: { id: 'swdf-vivosearch', source: 'swdf', target: 'vivosearch', label: 0.03 } },
+{ group: 'edges', data: { id: 'geonames-athelia', source: 'geonames', target: 'athelia', label: 0.03 } },
+{ group: 'edges', data: { id: 'wiktionary-athelia', source: 'wiktionary', target: 'athelia', label: 0.03 } },
+{ group: 'edges', data: { id: 'wordnet-athelia', source: 'wordnet', target: 'athelia', label: 0.02 } },
+{ group: 'edges', data: { id: 'acadonto-biblioteca-nacional', source: 'acadonto', target: 'biblioteca-nacional', label: 0.02 } },
+{ group: 'edges', data: { id: 'geonames-biblioteca-nacional', source: 'geonames', target: 'biblioteca-nacional', label: 0.02 } },
+{ group: 'edges', data: { id: 'wiktionary-aims', source: 'wiktionary', target: 'aims', label: 0.03 } },
+{ group: 'edges', data: { id: 'wiktionary-bfs.270a', source: 'wiktionary', target: 'bfs.270a', label: 0.02 } },
+{ group: 'edges', data: { id: 'acadonto-acm.rkbexplorer', source: 'acadonto', target: 'acm.rkbexplorer', label: 0.02 } },
+{ group: 'edges', data: { id: 'wordnet-bfs.270a', source: 'wordnet', target: 'bfs.270a', label: 0.02 } },
+{ group: 'edges', data: { id: 'agrinepaldata-geonames', source: 'agrinepaldata', target: 'geonames', label: 0.03 } },
+{ group: 'edges', data: { id: 'acadonto-geonames', source: 'acadonto', target: 'geonames', label: 0.02 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-geonames', source: 'acm.rkbexplorer', target: 'geonames', label: 0.02 } },
+{ group: 'edges', data: { id: 'agrinepaldata-vivosearch', source: 'agrinepaldata', target: 'vivosearch', label: 0.03 } },
+{ group: 'edges', data: { id: 'alaska-vivosearch', source: 'alaska', target: 'vivosearch', label: 0.02 } },
+{ group: 'edges', data: { id: 'acadonto-wiktionary', source: 'acadonto', target: 'wiktionary', label: 0.02 } },
+{ group: 'edges', data: { id: 'arrayexpress-swdf', source: 'arrayexpress', target: 'swdf', label: 0.02 } },
+{ group: 'edges', data: { id: 'acadonto-brown', source: 'acadonto', target: 'brown', label: 0.02 } },
+{ group: 'edges', data: { id: 'geonames-brown', source: 'geonames', target: 'brown', label: 0.02 } },
+{ group: 'edges', data: { id: 'acadonto-arrayexpress', source: 'acadonto', target: 'arrayexpress', label: 0.02 } },
+{ group: 'edges', data: { id: 'acadonto-dblp', source: 'acadonto', target: 'dblp', label: 0.02 } },
+{ group: 'edges', data: { id: 'acm.rkbexplorer-swdf', source: 'acm.rkbexplorer', target: 'swdf', label: 0.02 } },
+{ group: 'edges', data: { id: 'agrinepaldata-swdf', source: 'agrinepaldata', target: 'swdf', label: 0.02 } },
+{ group: 'edges', data: { id: 'bfs.270a-vivosearch', source: 'bfs.270a', target: 'vivosearch', label: 0.02 } },
+{ group: 'edges', data: { id: 'apertium-vivosearch', source: 'apertium', target: 'vivosearch', label: 0.02 } },
+{ group: 'edges', data: { id: 'brown-vivosearch', source: 'brown', target: 'vivosearch', label: 0.02 } }]);
+
+cy.on('click', 'node', function (evt) {
+  var node = evt.target;
+  console.clear();
+  console.log(node.position());
+});
+    </script>
+</body>
+</html>

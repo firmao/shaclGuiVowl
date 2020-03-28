@@ -1,0 +1,26 @@
+{
+	"nodes": [
+		{
+			"data": {
+				"id": "PhDStudent",
+				"label": "PhDStudent"
+			}
+		},
+		{
+			"data": {
+				"id": "Advisor",
+				"label": "Advisor"
+			}
+		}
+	],
+	"edges": [
+		{
+			"data": {
+				"id": "PhDStudentAdvisor",
+				"label": "has",
+				"source": "PhDStudent",
+				"target": "Advisor"
+			}
+		}
+	]
+}

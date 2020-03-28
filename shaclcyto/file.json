@@ -1,0 +1,63 @@
+{
+    "nodes": [
+            {
+            "data": {"id": "a", "label": "Gene1"}
+            },
+            {
+            "data": {"id": "b", "label": "Gene2"}
+            },
+            {
+            "data": {"id": "c", "label": "Gene3"}
+            },
+            {
+            "data": {"id": "d", "label": "Gene4"}
+            },
+            {
+            "data": {"id": "e", "label": "Gene5"}
+            },
+            {
+            "data": {"id": "f", "label": "Gene6"}
+            }
+    ],
+            "edges": [
+            {
+            "data": {
+            "id": "ab",
+                   "label": "44",
+                   "source": "a",
+                   "target": "b"
+            }
+            },
+            {
+            "data": {
+            "id": "cd",
+            		"label": "rr",
+                    "source": "c",
+                    "target": "d"
+            }
+            },
+            {
+            "data": {
+            "id": "ef",
+            		"label": "43",
+                    "source": "e",
+                    "target": "f"
+            }
+            },
+            {
+            "data": {
+            "id": "ac",
+            		"label": "654",
+                    "source": "a",
+                    "target": "d"
+            }
+            },
+            {
+            "data": {
+             "id": "be",
+             		"label": "FromBtoE",
+                    "source": "b",
+                    "target": "e"
+                }
+                }]    
+    }

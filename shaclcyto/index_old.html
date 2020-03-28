@@ -1,0 +1,124 @@
+<html lang="en">
+<title>Andre First Try</title>
+<head>
+<title></title>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.9.4/cytoscape.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+	src="js/graph.js"></script>
+</head>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left, .right {
+  width: 10%;
+}
+
+.middle {
+  width: 70%;
+  height: 100%
+}
+</style>
+
+<body>
+<div id="menu" class="column left">
+		<button id="btnAddNode" onclick="addNode();">Add Node</button>
+		<p/><button id="btnShaclShape" onclick="addShape();">Add ShaclShape</button>
+		<p/><button id="btnPrintNodes" onclick="printNodes();">Print Nodes</button>
+	</div>
+	<div id="cy" class="column middle">
+		
+	</div>
+	<script>
+		var cy = null;
+		var d1 = null;
+		$.getJSON("cyto.json", function(data) {
+			d1 = data;
+			//console.log(data);
+			cy = cytoscape({
+				container : document.getElementById('cy'),
+				elements : data,
+				style : [ {
+					selector : 'node',
+					style : {
+						'label' : 'data(label)',
+						'width' : '60px',
+						'height' : '60px',
+						'color' : 'blue',
+						'background-fit' : 'contain',
+						'background-clip' : 'none'
+					}
+				}, {
+					selector : 'edge',
+					style : {
+						'label' : 'data(label)',
+						'text-background-color' : 'yellow',
+						'text-background-opacity' : 0.4,
+						'width' : '6px',
+						'target-arrow-shape' : 'triangle',
+						'control-point-step-size' : '140px'
+					}
+				} ],
+				layout : {
+					name : 'circle'
+				},
+			});
+			cy.on('click', 'node', function(evt) {
+				var node = evt.target;
+				console.clear();
+				console.log(node.position());
+				console.log(node.id());
+				document.getElementById('txtCode').innerHTML=JSON.stringify(data);
+// 				var eles = cy.add([
+// 					  { group: 'nodes', data: { id: 'n0' }, position: { x: 100, y: 100 } },
+// 					  { group: 'nodes', data: { id: 'n1' }, position: { x: 200, y: 200 } },
+// 					  { group: 'edges', data: { id: 'e0', source: 'n0', target: 'n1' } }
+// 					]);
+				
+				var collection = cy.elements('node[weight > 0.3]');
+				cy.remove( collection );
+			});
+		});
+// 		function addNode() {
+			
+// 			var eles = cy.add([
+// 			  { group: 'nodes', data: { id: 'n0' }, position: { x: 100, y: 100 } }
+// 			]);
+			
+// 			//console.log(JSON.stringify(d1));
+// 			//alert(JSON.stringify(d1));
+// 			document.getElementById('txtCode').innerHTML=JSON.stringify(d1);
+// 		}
+		function addNode() {
+			var g = new Graph(6); 
+			var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ]; 
+			console.log(g);
+			var eles = cy.add([
+			  { group: 'nodes', data: { id: 'shape' }, position: { x: 100, y: 100 } }
+			]);
+			//console.log(JSON.stringify(d1));
+			//alert(JSON.stringify(d1));
+			document.getElementById('txtCode').innerHTML=JSON.stringify(d1);
+		}
+		function printNodes(){
+			alert( JSON.stringify(cy.elements().jsons()) );
+		}
+	</script>
+	<div id="code" class="column right">
+		<textarea rows="29" cols="50" id="txtCode"></textarea>
+	</div>
+</body>
+</html>
+
