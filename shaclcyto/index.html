@@ -1,0 +1,415 @@
+
+<!DOCTYPE>
+
+<html>
+
+<head>
+<title>cytoscape-context-menus.js demo</title>
+
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+<link href="./css/cytoscape-context-menus.css" rel="stylesheet"
+	type="text/css" />
+
+<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+<!-- for testing with local version of cytoscape.js -->
+<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
+
+<script src="./js/cytoscape-context-menus.js"></script>
+
+<style>
+* {
+	box-sizing: border-box;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+	float: left;
+	padding: 10px;
+	height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left, .right {
+	width: 10%;
+}
+
+.middle {
+	width: 70%;
+	height: 100%
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+
+<script>
+	var cy = null;
+	var posShacl = null;
+	var origShacl = null;
+	document.addEventListener('DOMContentLoaded', function() {
+
+		var cy = window.cy = cytoscape({
+			container : document.getElementById('cy'),
+
+			style : [ {
+				selector : 'node',
+				style : {
+					'label' : 'data(label)',
+					'width' : '60px',
+					'height' : '60px',
+					'color' : 'blue',
+					'background-fit' : 'contain',
+					'background-clip' : 'none'
+				}
+			}, {
+				selector : 'edge',
+				style : {
+					'label' : 'data(label)',
+					'text-background-color' : 'yellow',
+					'text-background-opacity' : 0.4,
+					'width' : '6px',
+					'target-arrow-shape' : 'triangle',
+					'control-point-step-size' : '140px'
+				}
+			} ],
+			layout : {
+				name : 'breadthfirst'
+			},
+
+			elements : {
+				nodes : [],
+				edges : []
+			},
+		});
+
+		cy.on('click', 'node', function(evt) {
+			printSelected();
+		});
+
+		var selectAllOfTheSameType = function(ele) {
+			cy.elements().unselect();
+			if (ele.isNode()) {
+				cy.nodes().select();
+			} else if (ele.isEdge()) {
+				cy.edges().select();
+			}
+		};
+		var unselectAllOfTheSameType = function(ele) {
+			if (ele.isNode()) {
+				cy.nodes().unselect();
+			} else if (ele.isEdge()) {
+				cy.edges().unselect();
+			}
+		};
+
+		var removed;
+		var removedSelected;
+		var pos;
+		var orig;
+		var idnew;
+
+		// demo your core ext
+		var contextMenu = cy.contextMenus({
+			menuItems : [ {
+				id : 'addShaclShape',
+				content : 'addShaclShape',
+				selector : 'node, edge',
+				coreAsWell : true,
+				onClickFunction : function(event) {
+					pos = event.position || event.cyPosition;
+					orig = event.target || event.cyTarget;
+					origShacl = orig;
+					test = pos;
+					showAddDiv("addShDiv");
+				},
+				hasTrailingDivider : true
+			}, {
+				id : 'remove',
+				content : 'remove',
+				selector : 'node, edge',
+				onClickFunction : function(event) {
+					var target = event.target || event.cyTarget;
+					removed = target.remove();
+
+					contextMenu.showMenuItem('undo-last-remove');
+				},
+				hasTrailingDivider : true
+			}, {
+				id : 'undo-last-remove',
+				content : 'undo last remove',
+				selector : 'node, edge',
+				show : false,
+				coreAsWell : true,
+				onClickFunction : function(event) {
+					if (removed) {
+						removed.restore();
+					}
+					contextMenu.hideMenuItem('undo-last-remove');
+				},
+				hasTrailingDivider : true
+			}, {
+				id : 'hide',
+				content : 'hide',
+				selector : '*',
+				onClickFunction : function(event) {
+					var target = event.target || event.cyTarget;
+					target.hide();
+				},
+				disabled : false
+			}, {
+				id : 'add-node',
+				content : 'add node',
+				coreAsWell : true,
+				onClickFunction : function(event) {
+					var data = {
+						group : 'nodes'
+					};
+
+					var pos = event.position || event.cyPosition;
+
+					cy.add({
+						data : data,
+						position : {
+							x : pos.x,
+							y : pos.y
+						}
+					});
+				}
+			}, {
+				id : 'remove-selected',
+				content : 'remove selected',
+				coreAsWell : true,
+				show : true,
+				onClickFunction : function(event) {
+					removedSelected = cy.$(':selected').remove();
+
+					contextMenu.hideMenuItem('remove-selected');
+					contextMenu.showMenuItem('restore-selected');
+				}
+			}, {
+				id : 'restore-selected',
+				content : 'restore selected',
+				coreAsWell : true,
+				show : false,
+				onClickFunction : function(event) {
+					if (removedSelected) {
+						removedSelected.restore();
+					}
+					contextMenu.showMenuItem('remove-selected');
+					contextMenu.hideMenuItem('restore-selected');
+				}
+			}, {
+				id : 'select-all-nodes',
+				content : 'select all nodes',
+				selector : 'node',
+				show : true,
+				onClickFunction : function(event) {
+					selectAllOfTheSameType(event.target || event.cyTarget);
+
+					contextMenu.hideMenuItem('select-all-nodes');
+					contextMenu.showMenuItem('unselect-all-nodes');
+				}
+			}, {
+				id : 'unselect-all-nodes',
+				content : 'unselect all nodes',
+				selector : 'node',
+				show : false,
+				onClickFunction : function(event) {
+					unselectAllOfTheSameType(event.target || event.cyTarget);
+
+					contextMenu.showMenuItem('select-all-nodes');
+					contextMenu.hideMenuItem('unselect-all-nodes');
+				}
+			}, {
+				id : 'select-all-edges',
+				content : 'select all edges',
+				selector : 'edge',
+				show : true,
+				onClickFunction : function(event) {
+					selectAllOfTheSameType(event.target || event.cyTarget);
+
+					contextMenu.hideMenuItem('select-all-edges');
+					contextMenu.showMenuItem('unselect-all-edges');
+				}
+			}, {
+				id : 'unselect-all-edges',
+				content : 'unselect all edges',
+				selector : 'edge',
+				show : false,
+				onClickFunction : function(event) {
+					unselectAllOfTheSameType(event.target || event.cyTarget);
+
+					contextMenu.showMenuItem('select-all-edges');
+					contextMenu.hideMenuItem('unselect-all-edges');
+				}
+			} ]
+		});
+	});
+	function printNodes() {
+		var p = JSON.stringify(cy.elements().jsons());
+		document.getElementById('txtCode').innerHTML = p;
+	}
+	
+	function printSelected() {
+		document.getElementById('txtCode').innerHTML = "";
+		document.getElementById("txtShacl").innerHTML = "";
+		var p = "" + JSON.stringify(cy.$(':selected').json());
+		document.getElementById('txtCode').innerHTML = p;
+		try {
+			if (p.includes("sh-")) {
+				document.getElementById('txtShacl').innerHTML = p;
+			}
+		} catch (err) {
+			document.getElementById("txtShacl").innerHTML = err.message;
+		}
+	}
+	
+	
+	
+	function showAddDiv(div) {
+		var modal = document.getElementById(div);
+		modal.style.display = "block";
+	}
+	
+	function addNode() {
+		var className = document.getElementById("txtClassName").value;
+		var eles = cy.add([
+		  { group: 'nodes', data: { id: className, label: className }, position: { x: 100, y: 100 } }
+		]);
+		var modal = document.getElementById("addDiv");
+	  	modal.style.display = "none";
+	}
+	
+	// When the user clicks on <span> (x), close the modal
+	function spanClick(div) {
+		var modal = document.getElementById(div);
+	  	modal.style.display = "none";
+	}
+	
+	function addShacl(){
+		var className = document.getElementById("txtShClassName").value;
+		var pos = origShacl.position;
+		var orig = origShacl;
+		console.log(orig.id());
+		cy.add([ {
+			group : 'nodes',
+			data : {
+				id : className,
+				label : className
+			},
+			position : {
+				x : 400,
+				y : 100
+			}
+		}, {
+			group : 'edges',
+			data : {
+				id : orig.id() + '-' + className,
+				label : 'validatedBy',
+				source : orig.id(),
+				target : className
+			}
+		} ]);
+		var modal = document.getElementById("addShDiv");
+	  	modal.style.display = "none";
+	}
+</script>
+</head>
+
+<body>
+	<div id="addDiv" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span onclick="spanClick('addDiv');" class="close">&times;</span>
+			<p>Class details</p>
+			<p>
+				Class name:
+				<input type="text" id="txtClassName">
+			</p>
+			<p>
+				<button id="btnAddClass" onclick="addNode();">addClass</button>
+			</p>
+		</div>
+
+	</div>
+	
+	<div id="addShDiv" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span onclick="spanClick('addShDiv');" class="close">&times;</span>
+			<p>Shacl details</p>
+			<p>
+				Shacl Shape:
+				<input type="text" id="txtShClassName">
+			</p>
+			<p>
+				<button id="btnAddShacl" onclick="addShacl();">addClass</button>
+			</p>
+		</div>
+
+	</div>
+	
+	<div id="menu" class="column left">
+		<button id="btnAddNode" onclick="showAddDiv('addDiv');">Add Node</button>
+		<p />
+		<button id="btnShaclShape" onclick="shaclValidation();">Shacl
+			Validation</button>
+		<p />
+		<button id="btnPrintNodes" onclick="printNodes();">Print
+			Nodes</button>
+		<p />
+		<button id="btnPrintSelected" onclick="printSelected();">Print
+			Selection</button>
+	</div>
+	<div id="cy" class="column middle"></div>
+	<div id="code" class="column right">
+		<textarea rows="20" cols="50" id="txtCode"></textarea>
+		<p>
+			<textarea rows="20" cols="50" id="txtShacl"></textarea>
+	</div>
+	<br>
+</body>
+
+</html>
