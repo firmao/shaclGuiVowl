@@ -12,80 +12,24 @@
 
 <link href="./css/cytoscape-context-menus.css" rel="stylesheet"
 	type="text/css" />
+	
+<link href="./css/mystyle.css" rel="stylesheet"
+	type="text/css" />
 
 <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+<script src="./js/Turtle.js"></script>
 
 <!-- for testing with local version of cytoscape.js -->
 <!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
 
 <script src="./js/cytoscape-context-menus.js"></script>
 
-<style>
-* {
-	box-sizing: border-box;
-}
-
-/* Create three unequal columns that floats next to each other */
-.column {
-	float: left;
-	padding: 10px;
-	height: 300px; /* Should be removed. Only for demonstration */
-}
-
-.left, .right {
-	width: 10%;
-}
-
-.middle {
-	width: 70%;
-	height: 100%
-}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-</style>
-
 <script>
 	var cy = null;
 	var posShacl = null;
 	var origShacl = null;
+	var nodes = new Map();
 	document.addEventListener('DOMContentLoaded', function() {
 
 		var cy = window.cy = cytoscape({
@@ -293,29 +237,43 @@
 	function printSelected() {
 		document.getElementById('txtCode').innerHTML = "";
 		document.getElementById("txtShacl").innerHTML = "";
-		var p = "" + JSON.stringify(cy.$(':selected').json());
-		document.getElementById('txtCode').innerHTML = p;
+		var id = cy.$(':selected').id();
+		var classText = "" + nodes.get(id);
+		console.log(nodes);
+		alert(classText);
 		try {
-			if (p.includes("sh-")) {
-				document.getElementById('txtShacl').innerHTML = p;
+			if (classText.includes("sh:")) {
+				document.getElementById('txtShacl').innerHTML = classText;
+			} else {
+				document.getElementById('txtCode').innerHTML = classText;
 			}
 		} catch (err) {
 			document.getElementById("txtShacl").innerHTML = err.message;
 		}
 	}
 	
-	
-	
 	function showAddDiv(div) {
 		var modal = document.getElementById(div);
 		modal.style.display = "block";
 	}
 	
-	function addNode() {
+	function addClass() {
 		var className = document.getElementById("txtClassName").value;
+		var classExtend = document.getElementById("txtClassExtend").value;
+		var prop1 = document.getElementById("txtProp1").value;
+		var value1 = document.getElementById("txtValue1").value;
+		var prop2 = document.getElementById("txtProp2").value;
+		var value2 = document.getElementById("txtValue2").value;
+		var ttl = new Turtle(className, classExtend);
+		ttl.addProperty(prop1, value1);
+		ttl.addProperty(prop2, value2);
+		var txtTurtle = ttl.printTurtle();
+		document.getElementById('txtCode').innerHTML = txtTurtle;
+		
 		var eles = cy.add([
 		  { group: 'nodes', data: { id: className, label: className }, position: { x: 100, y: 100 } }
 		]);
+		nodes.set(className, txtTurtle);
 		var modal = document.getElementById("addDiv");
 	  	modal.style.display = "none";
 	}
@@ -368,8 +326,24 @@
 				<input type="text" id="txtClassName">
 			</p>
 			<p>
-				<button id="btnAddClass" onclick="addNode();">addClass</button>
+				Extend class:
+				<input type="text" id="txtClassExtend">
 			</p>
+			<p>	
+				Property 1:
+				<input type="text" id="txtProp1">
+				Value 1:
+				<input type="text" id="txtValue1">
+			</p>
+			<p>	
+				Property 2:
+				<input type="text" id="txtProp2">
+				Value 2:
+				<input type="text" id="txtValue2">
+			</p>
+			<div class="btn-group">
+				<button id="btnAddClass" class="button" onclick="addClass();">addClass</button>
+			</div>
 		</div>
 
 	</div>
@@ -381,27 +355,42 @@
 			<span onclick="spanClick('addShDiv');" class="close">&times;</span>
 			<p>Shacl details</p>
 			<p>
-				Shacl Shape:
+				Name
 				<input type="text" id="txtShClassName">
 			</p>
 			<p>
-				<button id="btnAddShacl" onclick="addShacl();">addClass</button>
+				Target Class
+				<input type="text" id="txtShTarget">
+			</p>
+			<p>
+				sh:path
+				<input type="text" id="txtShPath">
+			</p>
+			<p>
+				sh:datatype
+				<input type="text" id="txtShDataType">
+			</p>
+			<p>
+			<div class="btn-group">
+				<button id="btnAddShacl" class="button" onclick="addShacl();">addClass</button>
+			</div>
 			</p>
 		</div>
 
 	</div>
 	
 	<div id="menu" class="column left">
-		<button id="btnAddNode" onclick="showAddDiv('addDiv');">Add Node</button>
-		<p />
-		<button id="btnShaclShape" onclick="shaclValidation();">Shacl
-			Validation</button>
-		<p />
-		<button id="btnPrintNodes" onclick="printNodes();">Print
-			Nodes</button>
-		<p />
-		<button id="btnPrintSelected" onclick="printSelected();">Print
-			Selection</button>
+		<div class="btn-group">
+			<button id="btnAddNode" class="button" onclick="showAddDiv('addDiv');">Add Node</button>
+			<button id="btnShaclShape" class="button" onclick="shaclValidation();">Shacl
+				Validation</button>
+			<button id="btnPrintNodes" class="button" onclick="printNodes();">Print
+				Nodes</button>
+			<button id="btnPrintSelected" class="button" onclick="printSelected();">Print
+				Selection</button>
+			<button id="btnShaclText" class="button" onclick="window.location.href='shacltext.html';">
+				ShaclTextual Version</button>	
+		</div>
 	</div>
 	<div id="cy" class="column middle"></div>
 	<div id="code" class="column right">
