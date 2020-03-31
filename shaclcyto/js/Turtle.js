@@ -11,7 +11,7 @@ class Turtle {
 		this.properties.set(property, value);
 	}
 	
-	getTurtle(){
+	getTurtleLines(){
 		var lines = [];
 		
 		lines.push("@prefix ex: <http://example.org/ns#> .");
@@ -33,7 +33,7 @@ class Turtle {
 	
 	printTurtle(){
 		var res = "";
-		var lines = this.getTurtle();
+		var lines = this.getTurtleLines();
 		for (var line of lines) 
 		{ 
 			res += "\n" + line;

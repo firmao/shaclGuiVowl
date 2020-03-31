@@ -15,7 +15,7 @@ class ShaclData {
 		this.properties.get(property).push(value);
 	}
 	
-	getTurtle(){
+	getShaclLines(){
 		var lines = [];
 		lines.push("@prefix dash: <http://datashapes.org/dash#> .");
 		lines.push("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .");
@@ -25,22 +25,32 @@ class ShaclData {
 		lines.push("@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .");
 		
 		lines.push(this.className);
-		lines.push("a " + this.extendClass + " ;");
+		lines.push("a sh:NodeShape ;");
+		lines.push("sh:targetClass "+this.targetClass+" ;");
 		var get_keys = this.properties.keys(); 
 
 		for (var prop of get_keys) 
 		{ 
-			lines.push(prop + " " + this.properties.get(prop) + " ;"); 
+			lines.push("sh:property [");
+			var get_values = this.properties.get(prop); 
+			for (var value of get_values){
+				lines.push("sh: " + value + " ;");
+			}  
+			lines.push(" ] ;");
 		}
 		
 		return lines;
 	}
 	
-	printTurtle(){
-		var lines = this.getTurtle();
+	printShacl(){
+		var res = "";
+		var lines = this.getShaclLines();
 		for (var line of lines) 
 		{ 
-			console.log(line); 
+			res += "\n" + line;
+			//console.log(line); 
 		}
+		res = res.trim().substring(0, res.length-2) + ".";
+		return res;
 	}
 }
