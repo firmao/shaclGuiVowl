@@ -4,7 +4,7 @@
 	var nodes = new Map();
 	document.addEventListener('DOMContentLoaded', function() {
 
-		var cy = window.cy = cytoscape({
+		cy = window.cy = cytoscape({
 			container : document.getElementById('cy'),
 
 			style : [ {
@@ -207,8 +207,6 @@
 	}
 	
 	function printSelected() {
-		document.getElementById('txtCode').innerHTML = "";
-		document.getElementById("txtShacl").innerHTML = "";
 		var id = cy.$(':selected').id();
 		var classText = "" + nodes.get(id);
 		try {
@@ -267,14 +265,14 @@
 		var shacl = new ShaclData(className, targetClass);
 		shacl.addProperty(prop1);
 		shacl.addProperty(prop2);
-		var v1 = [value1, value1];
-		var v2 = [value2, value2];
+		//var v1 = [value1,value2,value3, value_N];
+		var v1 = [value1];
+		var v2 = [value2];
 		shacl.setPropertyValues(prop1, v1);
 		shacl.setPropertyValues(prop2, v2);
 		var txtShacl = shacl.printShacl();
 		document.getElementById('txtShacl').innerHTML = txtShacl;
 		
-		console.log(targetClass);
 		cy.add([ {
 			group : 'nodes',
 			data : {
@@ -299,6 +297,41 @@
 	  	modal.style.display = "none";
 	}
 	
-	function shaclValidation(){
-		alert("TODO: validate this");
+	function makeValidation(){
+		let validator = new SHACLValidator();
+        validate();
+
+        $('#txtShacl').bind('input propertychange', function () {
+            let text = $("#txtShacl").val();
+            validator.parseShapesGraph(text, 'text/turtle', function () {
+                console.log("successfully parsed shape graph");
+                validate();
+            })
+        });
+
+
+        $('#txtCode').bind('input propertychange', function () {
+            let text = $("#txtCode").val();
+            validator.parseDataGraph(text, 'text/turtle', function () {
+                console.log("successfully parsed data graph");
+                validate();
+            });
+        });
+
+
+        function validate() {
+            let data_text = $("#txtCode").val();
+            let shapes_text = $("#txtShacl").val();
+
+            validator.validate(data_text, 'text/turtle', shapes_text, 'text/turtle', function (e, report) {
+                let $report = $("#report");
+                $report.val("Conforms? " + report.conforms() + "\n\n");
+
+                if (report.conforms() === false) {
+                    report.results().forEach(function (result) {
+                        $report.val($report.val() + JSON.stringify(result) + "\n\n");
+                    });
+                }
+            });
+        }
 	}

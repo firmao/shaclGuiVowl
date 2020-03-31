@@ -16,19 +16,13 @@
 <link href="./css/mystyle.css" rel="stylesheet"
 	type="text/css" />
 
-<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
 <script src="./js/Turtle.js"></script>
 <script src="./js/ShaclData.js"></script>
-
-<!-- for testing with local version of cytoscape.js -->
-<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
-
 <script src="./js/cytoscape-context-menus.js"></script>
-
-<script src=./js/shaclgui.js>
-
-</script>
+<script src=./js/shaclgui.js></script>
+<script src="js/shacl.js"></script>
 </head>
 
 <body>
@@ -103,7 +97,7 @@
 	<div id="menu" class="column left">
 		<div class="btn-group">
 			<button id="btnAddNode" class="button" onclick="showAddDiv('addDiv');">Add Node</button>
-			<button id="btnShaclValidation" class="button" onclick="shaclValidation();">Shacl
+			<button id="btnShaclValidation" class="button" onclick="makeValidation();">Shacl
 				Validation</button>
 			<button id="btnPrintNodes" class="button" onclick="printNodes();">Print
 				Nodes</button>
@@ -115,10 +109,13 @@
 	</div>
 	<div id="cy" class="column middle"></div>
 	<div id="code" class="column right">
-		<textarea rows="20" cols="50" spellcheck="false" id="txtCode"></textarea>
+		<textarea rows="15" cols="50" spellcheck="false" id="txtCode"></textarea>
 		<p>
-			<textarea rows="20" cols="50" spellcheck="false" id="txtShacl"></textarea>
+			<textarea rows="15" cols="50" spellcheck="false" id="txtShacl"></textarea>
 		</p>	
+		<p>
+			<textarea rows="5" cols="50" spellcheck="false" id="report"></textarea>
+		</p>
 	</div>
 	<br>
 </body>
