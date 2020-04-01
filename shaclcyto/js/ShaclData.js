@@ -34,7 +34,7 @@ class ShaclData {
 			lines.push("sh:property [");
 			var get_values = this.properties.get(prop); 
 			for (var value of get_values){
-				lines.push("sh: " + value + " ;");
+				lines.push(value);
 			}  
 			lines.push(" ] ;");
 		}
@@ -48,7 +48,6 @@ class ShaclData {
 		for (var line of lines) 
 		{ 
 			res += "\n" + line;
-			//console.log(line); 
 		}
 		res = res.trim().substring(0, res.length-2) + ".";
 		return res;

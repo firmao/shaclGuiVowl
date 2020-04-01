@@ -224,10 +224,10 @@
 		var modal = document.getElementById(div);
 		modal.style.display = "block";
 	}
-	
+	var classExtend = null;
 	function addClass() {
 		var className = document.getElementById("txtClassName").value;
-		var classExtend = document.getElementById("txtClassExtend").value;
+		classExtend = document.getElementById("txtClassExtend").value;
 		var prop1 = document.getElementById("txtProp1").value;
 		var value1 = document.getElementById("txtValue1").value;
 		var prop2 = document.getElementById("txtProp2").value;
@@ -252,24 +252,38 @@
 	  	modal.style.display = "none";
 	}
 	
+	function addField() {
+		  var x = document.createElement("INPUT");
+		  x.setAttribute("type", "text");
+		  x.setAttribute("value", "sh:");
+		  document.body.appendChild(x);
+		}
+	
 	function addShacl(){
 		var pos = origShacl.position;
 		var orig = origShacl;
 		
 		var className = document.getElementById("txtShClassName").value;
-		var targetClass = orig.id();
-		var prop1 = document.getElementById("txtShProp1").value;
-		var value1 = document.getElementById("txtShValue1").value;
-		var prop2 = document.getElementById("txtShProp2").value;
-		var value2 = document.getElementById("txtShValue2").value;
+		//var targetClass = orig.id();
+		var targetClass = classExtend;
+		var value1 = [document.getElementById("txtShProp1").value];
+		var value2 = [document.getElementById("txtShProp2").value];
+		var value3 = [document.getElementById("txtShProp3").value];
 		var shacl = new ShaclData(className, targetClass);
-		shacl.addProperty(prop1);
-		shacl.addProperty(prop2);
+		
 		//var v1 = [value1,value2,value3, value_N];
-		var v1 = [value1];
-		var v2 = [value2];
-		shacl.setPropertyValues(prop1, v1);
-		shacl.setPropertyValues(prop2, v2);
+		//var v1 = [value1];
+		shacl.addProperty("p1");
+		shacl.setPropertyValues("p1", value1);
+		if(value2.length > 2){
+			shacl.addProperty("p2");
+			shacl.setPropertyValues("p2", value2);
+		}
+		if(value3.length > 2){
+			shacl.addProperty("p3");
+			shacl.setPropertyValues("p3", value3);
+		}
+		
 		var txtShacl = shacl.printShacl();
 		document.getElementById('txtShacl').innerHTML = txtShacl;
 		
@@ -286,9 +300,9 @@
 		}, {
 			group : 'edges',
 			data : {
-				id : targetClass + '-' + className,
+				id : orig.id() + '-' + className,
 				label : 'validatedBy',
-				source : targetClass,
+				source : orig.id(),
 				target : className
 			}
 		} ]);
